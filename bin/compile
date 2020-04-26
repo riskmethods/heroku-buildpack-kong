@@ -27,13 +27,13 @@ BP_CACHE_DIR="$CACHE_DIR/heroku-kong-buildpack"
 mkdir -p $BP_CACHE_DIR
 PREFIX_CACHE_DIR=$BP_CACHE_DIR/app_prefix
 
-IS_CUSTOM_BUILD=true
-RUNTIME_ARCHIVE_URL="${KONG_RUNTIME_ARCHIVE_URL:-https://www.dropbox.com/s/wf9803q82pikdcb/kong-runtime-v2.0.3.tgz}"
+IS_CUSTOM_BUILD=false
+RUNTIME_ARCHIVE_URL="${KONG_RUNTIME_ARCHIVE_URL:-https://www.dropbox.com/s/qhnruwopz4ho9gq/kong-runtime-v2.0.3.tgz}"
 
 # Source for Kong
 if [ -f "${ENV_DIR}/KONG_GIT_URL" ]
 then
-  IS_CUSTOM_BUILD=true
+  IS_CUSTOM_BUILD=false
   KONG_GIT_URL=`cat ${ENV_DIR}/KONG_GIT_URL`
 else
   KONG_GIT_URL="https://github.com/kong/kong.git"
@@ -99,9 +99,6 @@ for PACKAGE in $(cat $BP_DIR/Aptfile $BUILD_DIR/Aptfile); do
   fi
 done
 
-#symlink /app/.apt to /lib so that plugins build
-ln -s /lib/ /app/.apt
-
 mkdir -p $BUILD_DIR/.apt
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
@@ -111,6 +108,11 @@ done
 
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
+
+cat <<EOF>$BUILD_DIR/.profile.d/001_symlink_lib.sh
+    ln -s /lib/ /$BUILD_DIR/.apt
+EOF
+
 # ~~~~~ Keep these values in sync with the build-time exports below ~~~~~
 cat <<EOF >$BUILD_DIR/.profile.d/000_buildpack_kong.sh
 export PATH="\$HOME/${KONG_RUNTIME}/nginx/sbin:\$HOME/${KONG_RUNTIME}/luajit/bin:\$HOME/${KONG_RUNTIME}/bin:\$HOME/${KONG_RUNTIME}/go/bin:\$HOME/.apt/usr/local/bin:\$HOME/.apt/usr/bin:\$HOME/.apt/usr/sbin:\$PATH"
@@ -303,5 +305,9 @@ if [ ! "$BUILD_DIR" = "/app" ]; then
   mv $APP_PREFIX $BUILD_DIR/$KONG_RUNTIME
 fi
 
-
-
+# run kong post-build if available
+if [[ -f bin/kong-post-build ]]; then
+    step "Running bin/kong-post-build hook"
+    chmod a+x bin/kong-post-build
+    bin/kong-post-build
+fi
