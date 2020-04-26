@@ -145,7 +145,7 @@ export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPP
 if [ $IS_CUSTOM_BUILD = false ]
 then
  topic "Installing Kong for buildpack from ${RUNTIME_ARCHIVE_URL}"
- curl --silent --location "${RUNTIME_ARCHIVE_URL}" | tar xzm -C "${APP_PREFIX}" --strip-components=2
+ curl --silent --location "${RUNTIME_ARCHIVE_URL}" | tar xzm -C "${APP_PREFIX}" --overwrite --strip-components=2
 else
 
   # Proceed with build from source
