@@ -27,7 +27,7 @@ BP_CACHE_DIR="$CACHE_DIR/heroku-kong-buildpack"
 mkdir -p $BP_CACHE_DIR
 PREFIX_CACHE_DIR=$BP_CACHE_DIR/app_prefix
 
-IS_CUSTOM_BUILD=false
+IS_CUSTOM_BUILD=true
 RUNTIME_ARCHIVE_URL="${KONG_RUNTIME_ARCHIVE_URL:-https://www.dropbox.com/s/wf9803q82pikdcb/kong-runtime-v2.0.3.tgz}"
 
 # Source for Kong
@@ -56,7 +56,7 @@ KONG_SOURCE_DIR="${BP_CACHE_DIR}/kong-source"
 LUAROCKS_VERSION=3.3.1
 OPENSSL_VERSION=1.1.1d
 OPENRESTY_VERSION=1.15.8.3
-GOLANG_VERSION=1.13.7
+GOLANG_VERSION=1.14.2
 
 function error() {
   echo " !     $*" >&2
@@ -98,6 +98,9 @@ for PACKAGE in $(cat $BP_DIR/Aptfile $BUILD_DIR/Aptfile); do
     apt-get $APT_OPTIONS -y --allow-downgrades --allow-remove-essential --allow-change-held-packages -d install --reinstall $PACKAGE | indent
   fi
 done
+
+#symlink /app/.apt to /lib so that plugins build
+ln -s /lib/ /app/.apt
 
 mkdir -p $BUILD_DIR/.apt
 
