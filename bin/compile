@@ -27,7 +27,7 @@ BP_CACHE_DIR="$CACHE_DIR/heroku-kong-buildpack"
 mkdir -p $BP_CACHE_DIR
 PREFIX_CACHE_DIR=$BP_CACHE_DIR/app_prefix
 
-IS_CUSTOM_BUILD=false
+IS_CUSTOM_BUILD=true
 RUNTIME_ARCHIVE_URL="${KONG_RUNTIME_ARCHIVE_URL:-https://www.dropbox.com/s/qhnruwopz4ho9gq/kong-runtime-v2.0.3.tgz}"
 
 # Source for Kong
@@ -145,7 +145,7 @@ export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPP
 if [ $IS_CUSTOM_BUILD = false ]
 then
  topic "Installing Kong for buildpack from ${RUNTIME_ARCHIVE_URL}"
- curl --silent --location "${RUNTIME_ARCHIVE_URL}" | tar xzm -C "${APP_PREFIX}" --overwrite --strip-components=2
+ curl --silent --location "${RUNTIME_ARCHIVE_URL}" | tar xzm -C "${APP_PREFIX}" --strip-components=2
 else
 
   # Proceed with build from source
