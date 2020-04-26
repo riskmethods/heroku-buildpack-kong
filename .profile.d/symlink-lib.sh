@@ -2,5 +2,5 @@
 
 echo "Linking /lib to /app/.app"
 
-ln -s /lib/ app/.apt
+ln -s /lib/ /app/.apt
 
