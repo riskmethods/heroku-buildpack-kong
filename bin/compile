@@ -27,7 +27,7 @@ BP_CACHE_DIR="$CACHE_DIR/heroku-kong-buildpack"
 mkdir -p $BP_CACHE_DIR
 PREFIX_CACHE_DIR=$BP_CACHE_DIR/app_prefix
 
-IS_CUSTOM_BUILD=true
+IS_CUSTOM_BUILD=false
 RUNTIME_ARCHIVE_URL="${KONG_RUNTIME_ARCHIVE_URL:-https://www.dropbox.com/s/ddi2a47muia4rx0/kong-runtime-v2.0.3.tgz}"
 
 # Source for Kong
