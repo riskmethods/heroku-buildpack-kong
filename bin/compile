@@ -302,8 +302,8 @@ if [ ! "$BUILD_DIR" = "/app" ]; then
 fi
 
 # run kong post-build if available
-if [[ -f $BUILD_DIR/bin/kong-post-build ]]; then
+if [[ -f /app/bin/kong-post-build ]]; then
     step "Running bin/kong-post-build hook"
-    chmod a+x $BUILD_DIR/bin/kong-post-build
-    $BUILD_DIR/bin/kong-post-build
+    chmod a+x /app/bin/kong-post-build
+    /app/bin/kong-post-build
 fi
