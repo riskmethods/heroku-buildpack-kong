@@ -304,7 +304,7 @@ fi
 if [[ -f $BUILD_DIR/bin/kong-post-build ]]; then
     echo "Running bin/kong-post-build hook"
     chmod a+x $BUILD_DIR/bin/kong-post-build
-    $BUILD_DIR/bin/kong-post-build
+    $BUILD_DIR/bin/kong-post-build $BUILD_DIR
 fi
 
 
