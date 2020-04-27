@@ -270,13 +270,6 @@ else
   mkdir ${APP_PREFIX}/go-plugins
 fi
 
-# run kong post-build if available
-if [[ -f $BUILD_DIR/bin/kong-post-build ]]; then
-    echo "Running bin/kong-post-build hook"
-    chmod a+x $BUILD_DIR/bin/kong-post-build
-    $BUILD_DIR/bin/kong-post-build
-fi
-
 topic "Installing Lua rocks specified in Rockfile"
 cd ${BUILD_DIR}
 ${BP_DIR}/bin/install-luarocks
@@ -306,4 +299,13 @@ if [ ! "$BUILD_DIR" = "/app" ]; then
   topic "Making build artifacts available to app"
   mv $APP_PREFIX $BUILD_DIR/$KONG_RUNTIME
 fi
+
+# run kong post-build if available
+if [[ -f $BUILD_DIR/bin/kong-post-build ]]; then
+    echo "Running bin/kong-post-build hook"
+    chmod a+x $BUILD_DIR/bin/kong-post-build
+    $BUILD_DIR/bin/kong-post-build
+fi
+
+
 
