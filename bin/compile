@@ -271,10 +271,10 @@ else
 fi
 
 # run kong post-build if available
-if [[ -f /app/bin/kong-post-build ]]; then
+if [[ -f $BUILD_DIR/bin/kong-post-build ]]; then
     echo "Running bin/kong-post-build hook"
-    chmod a+x /app/bin/kong-post-build
-    /app/bin/kong-post-build
+    chmod a+x $BUILD_DIR/bin/kong-post-build
+    $BUILD_DIR/bin/kong-post-build
 fi
 
 topic "Installing Lua rocks specified in Rockfile"
