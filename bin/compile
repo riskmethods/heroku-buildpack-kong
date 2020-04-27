@@ -272,7 +272,7 @@ fi
 
 # run kong post-build if available
 if [[ -f /app/bin/kong-post-build ]]; then
-    step "Running bin/kong-post-build hook"
+    echo "Running bin/kong-post-build hook"
     chmod a+x /app/bin/kong-post-build
     /app/bin/kong-post-build
 fi
