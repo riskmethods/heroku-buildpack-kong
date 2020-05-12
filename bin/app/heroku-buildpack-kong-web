@@ -14,5 +14,6 @@ if [ -e "$NGINX_TEMPLATE" ]
   NGINX_TEMPLATE_PARAM="--nginx-conf $NGINX_TEMPLATE"
 fi
 
+kong stop -p $APP_PREFIX
 kong prepare -p $APP_PREFIX -c $KONG_CONF $NGINX_TEMPLATE_PARAM
 eval "nginx -p $APP_PREFIX -c $APP_PREFIX/nginx.conf $@"

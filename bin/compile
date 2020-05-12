@@ -302,7 +302,7 @@ fi
 
 # run kong post-build if available
 if [[ -f $BUILD_DIR/bin/kong-post-build ]]; then
-    echo "Running bin/kong-post-build hook"
+    echo "Running bin/kong-post-build hook" | indent
     chmod a+x $BUILD_DIR/bin/kong-post-build
     $BUILD_DIR/bin/kong-post-build $BUILD_DIR
 fi
