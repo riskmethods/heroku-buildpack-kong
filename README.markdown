@@ -1,3 +1,6 @@
+## NOTE
+This is a fork of the original [`heroku-buildpack-kong`](https://github.com/heroku/heroku-buildpack-kong)
+
 [Heroku Buildpack](https://devcenter.heroku.com/articles/buildpacks) for [Kong](https://getkong.org/about/)
 =========================
 
@@ -30,7 +33,7 @@ mkdir $APP_NAME
 cd $APP_NAME
 git init
 heroku create $APP_NAME
-heroku buildpacks:set https://github.com/heroku/heroku-buildpack-kong.git
+heroku buildpacks:set https://github.com/riskmethods/heroku-buildpack-kong.git
 heroku addons:create heroku-postgresql:hobby-dev
 ```
 

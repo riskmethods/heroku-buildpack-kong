@@ -28,7 +28,7 @@ mkdir -p $BP_CACHE_DIR
 PREFIX_CACHE_DIR=$BP_CACHE_DIR/app_prefix
 
 IS_CUSTOM_BUILD=false
-RUNTIME_ARCHIVE_URL="${KONG_RUNTIME_ARCHIVE_URL:-https://www.dropbox.com/s/ddi2a47muia4rx0/kong-runtime-v2.0.3.tgz}"
+RUNTIME_ARCHIVE_URL="${KONG_RUNTIME_ARCHIVE_URL:-https://riskmethodscdn.s3.amazonaws.com/kong/kong-runtime-v2.0.3.tgz}"
 
 # Source for Kong
 if [ -f "${ENV_DIR}/KONG_GIT_URL" ]
@@ -140,10 +140,9 @@ export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPP
 
 if [ $IS_CUSTOM_BUILD = false ]
 then
- topic "Installing Kong for buildpack from ${RUNTIME_ARCHIVE_URL}"
- curl --silent --location "${RUNTIME_ARCHIVE_URL}" | tar xzm -C "${APP_PREFIX}" --strip-components=2
+  topic "Installing Kong for buildpack from ${RUNTIME_ARCHIVE_URL}"
+  curl --silent --location "${RUNTIME_ARCHIVE_URL}" | tar xzm -C "${APP_PREFIX}" --strip-components=2
 else
-
   # Proceed with build from source
   # Build from source to have dyno-compatible path prefix
 
@@ -306,6 +305,3 @@ if [[ -f $BUILD_DIR/bin/kong-post-build ]]; then
     chmod a+x $BUILD_DIR/bin/kong-post-build
     $BUILD_DIR/bin/kong-post-build $BUILD_DIR
 fi
-
-
-
